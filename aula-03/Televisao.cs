@@ -17,7 +17,9 @@ public class Televisao
         }
         Tamanho = tamanho;
         Volume = VOLUME_PADRAO;
+        Canal = CANAL_MINIMO;  // Definindo o canal inicial como 1
     }
+
 
     //Optamos pela utilização da constante para tornar o código mais legível.
     private const float TAMANHO_MINIMO = 22;
@@ -25,6 +27,10 @@ public class Televisao
     private const int VOLUME_MAXIMO = 12;
     private const int VOLUME_MINIMO = 0;
     private const int VOLUME_PADRAO = 10;
+
+    //Constantes abaixos foram definidas para realizar os pedidos da aula
+    private const int CANAL_MINIMO = 1;
+    private const int CANAL_MAXIMO = 100;
 
     private int _ultimoVolume = VOLUME_PADRAO;
 
@@ -46,31 +52,46 @@ public class Televisao
     public int Canal { get; set; }
     public bool Estado { get; set; }
 
-    public void AumentarVolume()
+public void AumentarVolume()
+{
+    // Se estiver no mudo, não faz nada!
+    if (Volume == VOLUME_MINIMO && _ultimoVolume != VOLUME_MINIMO)
     {
-        if (Volume < VOLUME_MAXIMO)
-        {
-            Volume++;
-            _ultimoVolume = Volume;
-        }
-        else
-        {
-            Console.WriteLine("A TV já está no volume máximo permitido");
-        }
+        Console.WriteLine("A TV está no modo MUTE. Não é possível aumentar o volume.");
+        return;
     }
 
-    public void DiminuirVolume()
+    if (Volume < VOLUME_MAXIMO)
     {
-        if (Volume > VOLUME_MINIMO)
-        {
-            Volume--;
-            _ultimoVolume = Volume;
-        }
-        else
-        {
-            Console.WriteLine("A TV já está no volume mínimo permitido");
-        }
+        Volume++;
+        _ultimoVolume = Volume;
     }
+    else
+    {
+        Console.WriteLine("A TV já está no volume máximo permitido");
+    }
+}
+
+public void DiminuirVolume()
+{
+    // Se estiver no mudo, não faz nada!
+    if (Volume == VOLUME_MINIMO && _ultimoVolume != VOLUME_MINIMO)
+    {
+        Console.WriteLine("A TV está no modo MUTE. Não é possível diminuir o volume.");
+        return;
+    }
+
+    if (Volume > VOLUME_MINIMO)
+    {
+        Volume--;
+        _ultimoVolume = Volume;
+    }
+    else
+    {
+        Console.WriteLine("A TV já está no volume mínimo permitido");
+    }
+}
+
 
     //1 botao de mudo -  toggle (on/off)
     //Volume = x; Volume = 0; Volume = x;
@@ -88,4 +109,52 @@ public class Televisao
             Console.WriteLine($"O volume da TV é: {Volume}.");
         }
     }
+
+
+    // Novos metodos criados "AumentarCanal" e "Diminuir Canal"
+        public void AumentarCanal()
+    {
+        if (Canal < CANAL_MAXIMO)
+        {
+            Canal++;
+            Console.WriteLine($"Canal aumentado para {Canal}");
+        }
+        else
+        {
+            Console.WriteLine("Você já está no canal máximo.");
+        }
+    }
+
+    public void DiminuirCanal()
+    {
+        if (Canal > CANAL_MINIMO)
+        {
+            Canal--;
+            Console.WriteLine($"Canal diminuído para {Canal}");
+        }
+        else
+        {
+            Console.WriteLine("Você já está no canal mínimo.");
+        }
+    }
+
+// Depois dos métodos AumentarCanal e DiminuirCanal
+
+public void SelecionarCanal(int canal)
+{
+    if (canal < CANAL_MINIMO || canal > CANAL_MAXIMO)
+    {
+        Console.WriteLine($"O canal {canal} não está disponível.");
+        // O canal não deve ser alterado se o valor for inválido
+        return;
+    }
+
+    Canal = canal; // Altera o canal somente se o valor estiver dentro do intervalo válido
 }
+
+
+
+
+
+}
+

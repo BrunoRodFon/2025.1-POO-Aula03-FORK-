@@ -8,13 +8,13 @@ public class TelevisaoTest
     [TestMethod]
     public void Dado_Tamanho_21_Deve_Retornar_Excecao()
     {
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Televisao(21f), $"O tamanho(21) não é suportado!");
+        Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Televisao(21f), $"O tamanho(21) nï¿½o ï¿½ suportado!");
     }
 
     [TestMethod]
     public void Dado_Tamanho_81_Deve_Retornar_Excecao()
     {
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Televisao(81f), $"O tamanho(81) não é suportado!");
+        Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Televisao(81f), $"O tamanho(81) nï¿½o ï¿½ suportado!");
     }
 
     [TestMethod]
@@ -116,6 +116,85 @@ public class TelevisaoTest
         Assert.AreEqual(volumeInicial, televisao.Volume);
     }
 
+
+    //Testes abaixo foram criados para os pedidos da aula
+
+    //Testes para o metodo "Aumentar e diminuir canal"
+
+        [TestMethod]
+    public void Deve_Aumentar_Canal()
+    {
+        Televisao televisao = new Televisao(25f);
+        televisao.Canal = 10; // canal atual
+
+        televisao.AumentarCanal();
+
+        Assert.AreEqual(11, televisao.Canal);
+    }
+
+    [TestMethod]
+    public void Deve_Diminuir_Canal()
+    {
+        Televisao televisao = new Televisao(25f);
+        televisao.Canal = 10; // canal atual
+
+        televisao.DiminuirCanal();
+
+        Assert.AreEqual(9, televisao.Canal);
+    }
+
+    [TestMethod]
+    public void Nao_Deve_Passar_Do_Canal_Maximo()
+    {
+        Televisao televisao = new Televisao(25f);
+        televisao.Canal = 100; // no mÃ¡ximo
+
+        televisao.AumentarCanal();
+
+        Assert.AreEqual(100, televisao.Canal);
+    }
+
+    [TestMethod]
+    public void Nao_Deve_Abaixar_Do_Canal_Minimo()
+    {
+        Televisao televisao = new Televisao(25f);
+        televisao.Canal = 1; // no mÃ­nimo
+
+        televisao.DiminuirCanal();
+
+        Assert.AreEqual(1, televisao.Canal);
+    }
+
+    //Testes para o metodo "Selecionar canal pelo numero"
+        [TestMethod]
+    public void Deve_Selecionar_Canal_Pelo_Numero()
+    {
+        Televisao televisao = new Televisao(25f);
+
+        televisao.SelecionarCanal(55);
+
+        Assert.AreEqual(55, televisao.Canal);  // Espera que o canal seja 505
+    }
+
+    [TestMethod]
+    public void Nao_Deve_Selecionar_Canal_Abaixo_Do_Minimo()
+    {
+        Televisao televisao = new Televisao(25f);
+
+        televisao.SelecionarCanal(0);  // Tentando selecionar um canal abaixo do mÃ­nimo
+
+        Assert.AreEqual(1, televisao.Canal);  // O canal nÃ£o deve ser alterado, deve continuar sendo 1
+    }
+
+    [TestMethod]
+    public void Nao_Deve_Selecionar_Canal_Acima_Do_Maximo()
+    {
+        Televisao televisao = new Televisao(25f);
+
+        televisao.SelecionarCanal(1000);  // Tentando selecionar um canal acima do mÃ¡ximo
+
+        Assert.AreEqual(1, televisao.Canal);  // O canal nÃ£o deve ser alterado, deve continuar sendo 1
+    }
 
     
 }
